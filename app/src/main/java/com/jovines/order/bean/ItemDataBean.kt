@@ -17,6 +17,7 @@ class ItemDataBean(item: Item? = null) {
 
     init {
         item?.let { build(item) }
+        item?.tag = this
     }
 
 
@@ -50,6 +51,7 @@ class ItemDataBean(item: Item? = null) {
                 item.add(timeList[i - 1], timeList[i])
             }
         }
+        item.tag = this
         return item
     }
 }

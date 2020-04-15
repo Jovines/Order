@@ -8,16 +8,19 @@
     android:padding="20dp">
 
     <TextView
+        android:id="@+id/tv_bottom_dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:text="添加人员" />
+        android:text="@string/add_item" />
 
     <EditText
         android:id="@+id/editText"
+        android:maxLines="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/enter_the_item_name"
         android:layout_marginTop="15dp"
         android:drawablePadding="15dp"
         android:drawableStart="@drawable/ic_perm_identity_black_24dp"
@@ -26,7 +29,9 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:autofillHints="Item"
+        android:inputType="text" />
 
     <GridView
         android:id="@+id/dialog_grid"
@@ -43,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_button"
-        android:text="添加"
+        android:text="@string/add_button"
         android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

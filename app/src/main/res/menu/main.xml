@@ -5,25 +5,24 @@
         android:id="@+id/specification_setting"
         android:icon="@drawable/ic_sentiment_neutral_black_24dp"
         android:orderInCategory="100"
-        android:title="规格设置" />
+        android:title="@string/specification_setting" />
 
     <item
         android:id="@+id/number_of_people"
         android:icon="@drawable/ic_sentiment_neutral_black_24dp"
         android:orderInCategory="100"
-        android:title="人数设置" />
+        android:title="@string/number_of_people" />
 
     <item
         android:id="@+id/times_setting"
         android:icon="@drawable/ic_sentiment_neutral_black_24dp"
         android:orderInCategory="100"
-        android:title="次数设置" />
+        android:title="@string/times_setting" />
 
   <item
         android:id="@+id/empty"
         android:icon="@drawable/ic_sentiment_neutral_black_24dp"
         android:orderInCategory="100"
-        android:title="清空" />
-
+        android:title="@string/empty" />
 
 </menu>

@@ -16,17 +16,10 @@ class Item(
 ) : Serializable {
 
     //还剩时间表
-    private val suitableSchedule = Array(maxColumn) { BooleanArray(maxRow){false} }
+    private val suitableSchedule = Array(maxColumn) { BooleanArray(maxRow) { false } }
 
     //时间表
-    val totalSchedule = Array(maxColumn) { BooleanArray(maxRow){false} }
-
-    //时间表上的空闲时间数量
-    private var totalTimeCount = 0
-
-    //还剩的空闲时间
-    var freeTimeCount = 0
-        private set
+    val totalSchedule = Array(maxColumn) { BooleanArray(maxRow) { false } }
 
     //已经安排的轮次
     val fixedTurns: MutableList<Turn> = ArrayList()
@@ -34,12 +27,21 @@ class Item(
     //可以被排到那些轮次
     private val suitableTurns = ArrayList<Turn>()
 
+    //被安排的场景
+    val orderSceneList: MutableList<OrderScene> = ArrayList()
+
+    //时间表上的空闲时间数量
+    var totalTimeCount = 0
+
+    //还剩的空闲时间
+    var freeTimeCount = 0
+        private set
+
     //已经被安排了多少次
     var fixedCount = 0
         private set
 
-    //被安排的场景
-    val orderSceneList: MutableList<OrderScene> = ArrayList()
+    var tag: Any? = null
 
     fun addSuitableTurn(turn: Turn) {
         suitableTurns.add(turn)
@@ -74,20 +76,12 @@ class Item(
 
     fun copyObject(item: Item) {
         name = item.name
-        totalTimeCount = item.totalTimeCount //时间表上的空闲时间
-        freeTimeCount = item.freeTimeCount //还剩的空闲时间
-        fixedCount = item.fixedCount //已经被安排了多少次
         for (i in 0 until maxColumn) {
             for (j in 0 until maxRow) {
-                totalSchedule[i][j] = item.totalSchedule[i][j] //时间表
-                suitableSchedule[i][j] = item.suitableSchedule[i][j] //还剩时间表
+                if (item.totalSchedule[i][j]) {
+                    add(i + 1, j + 1)
+                }
             }
-        }
-        for (turn in suitableTurns) {
-            suitableTurns.add(turn)
-        }
-        for (turn in fixedTurns) {
-            fixedTurns.add(turn)
         }
     }
 

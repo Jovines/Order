@@ -9,19 +9,20 @@ import kotlinx.android.synthetic.main.content_item.view.*
 
 /**
  * @author Jovines
- * @create 2020-04-14 9:22 PM
+ * @create 2020-04-14 2:20 PM
  *
  * 描述:
  *
  */
-class OrderStartAdapter(val size: OrderScene) : RecyclerView.Adapter<ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.content_start, parent, false)
-        )
-    }
+class OrderTopAdapter(private val orderScene: OrderScene) : RecyclerView.Adapter<ViewHolder>() {
 
-    override fun getItemCount() = size.maxRow
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
+        LayoutInflater.from(parent.context).inflate(
+            R.layout.content_top, parent, false
+        )
+    )
+
+    override fun getItemCount() = orderScene.maxColumn
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {

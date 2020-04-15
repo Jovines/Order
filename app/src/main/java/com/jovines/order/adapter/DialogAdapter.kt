@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.jovines.order.R
-import com.jovines.order.order.OrderScene
+import com.jovines.order.order.Item
 import kotlinx.android.synthetic.main.dialog_grid_item.view.*
 
 /**
@@ -15,7 +15,11 @@ import kotlinx.android.synthetic.main.dialog_grid_item.view.*
  * 描述:
  *
  */
-class DialogAdapter(val itemBuild: OrderScene.ItemBuild, private val maxColumn: Int, private val maxRow: Int) :
+class DialogAdapter(
+    val item: Item,
+    private val maxColumn: Int,
+    private val maxRow: Int
+) :
     BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -28,11 +32,12 @@ class DialogAdapter(val itemBuild: OrderScene.ItemBuild, private val maxColumn: 
         viewHolder.itemView.apply {
             val row = position / maxColumn + 1
             val column = position % maxColumn + 1
+            checkbox.isChecked = item.totalSchedule[column - 1][row - 1]
             checkbox.setOnClickListener {
                 if (checkbox.isChecked) {
-                    itemBuild.add(column, row)
+                    item.add(column, row)
                 } else {
-                    itemBuild.remove(column, row)
+                    item.remove(column, row)
                 }
             }
         }

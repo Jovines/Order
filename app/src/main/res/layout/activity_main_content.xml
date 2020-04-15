@@ -25,69 +25,14 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <View
-        android:id="@+id/include"
-        android:layout_width="@dimen/head_width_and_height"
-        android:layout_height="@dimen/head_width_and_height"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar" />
-
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/main_view_pager"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/float_button"
-        app:layout_constraintTop_toBottomOf="@+id/include">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/order_start"
-                android:layout_width="@dimen/head_width_and_height"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@+id/float_button"
-                app:layout_constraintEnd_toEndOf="@+id/include"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/include"
-                app:layout_constraintTop_toBottomOf="@+id/include"
-                app:layout_constraintVertical_bias="0.0" />
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/order_content"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:layout_constraintBottom_toBottomOf="@+id/order_start"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/include"
-                app:layout_constraintTop_toBottomOf="@+id/include" />
-
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-
-    <GridView
-        android:id="@+id/order_top"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/include"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/include"
-        app:layout_constraintTop_toTopOf="@+id/include">
-
-    </GridView>
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar" />
 
     <Button
         android:id="@+id/float_button"
@@ -95,7 +40,7 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom|end"
         android:background="@drawable/shape_button"
-        android:text="添加人员"
+        android:text="@string/add_people"
         android:textColor="@color/design_default_color_background"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

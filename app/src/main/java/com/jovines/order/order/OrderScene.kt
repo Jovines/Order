@@ -58,7 +58,7 @@ class OrderScene(
      * @param time 所在行列，，第一个值是列，第二个值是行
      * @return 返回一个构建好的item
      */
-    fun buildItem(name: String, vararg time: Pair<Int, Int>): Item {
+    fun buildItem(name: String = "", vararg time: Pair<Int, Int>): Item {
         val item = Item(name, maxColumn, maxRow)
         time.forEach {
             item.add(it.second, it.first)
