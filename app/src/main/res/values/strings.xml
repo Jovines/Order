@@ -2,11 +2,10 @@
     <string name="app_name">Order</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="modify_item">修改Item</string>
-    <string name="add_item">添加Item</string>
-    <string name="enter_the_item_name">输入Item名</string>
+    <string name="modify_item">修改ITEM</string>
+    <string name="add_item">添加ITEM</string>
+    <string name="enter_the_item_name">输入ITEM名</string>
     <string name="add_button">添加</string>
-    <string name="add_people">添加人员</string>
     <string name="specification_setting">规格设置</string>
     <string name="number_of_people">人数设置</string>
     <string name="times_setting">次数设置</string>
@@ -18,5 +17,6 @@
     <string name="number_of_lines">行数</string>
     <string name="number_of_columns">列数</string>
     <string name="confirm">确认</string>
-    <string name="an_item_can_be_sorted">一个Item能被排</string>
+    <string name="an_item_can_be_sorted">一个ITEM能被排</string>
+    <string name="no_data_has_been_added">还没有添加任何数据</string>
 </resources>

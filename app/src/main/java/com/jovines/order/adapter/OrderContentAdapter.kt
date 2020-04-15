@@ -37,7 +37,7 @@ class OrderContentAdapter(private val dataList: OrderViewModel) :
             dataList.turnList[position]?.let {
                 setOnClickListener {
                     val dialog = AlertDialog.Builder(context)
-                    dialog.setTitle("当前班次有以下排好Item：")
+                    dialog.setTitle("当前班次有以下排好ITEM：")
                     dialog.setMessage(stringBuilder)
                     dialog.setPositiveButton("确认") { dialogInterface: DialogInterface, i: Int ->
                         dialogInterface.dismiss()

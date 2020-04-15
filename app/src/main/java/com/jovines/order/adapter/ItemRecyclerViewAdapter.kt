@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jovines.order.R
@@ -50,9 +51,6 @@ class ItemRecyclerViewAdapter(private val mValues: List<Item>, val viewModel: Or
             }
         }
     }
-
-    fun buildColorText(color: String, data: String) =
-        String.format("<font color=\"${color}\">%s", data)
 
     override fun getItemCount(): Int = mValues.size
 }

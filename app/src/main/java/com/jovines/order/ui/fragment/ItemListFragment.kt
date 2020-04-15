@@ -31,6 +31,7 @@ class ItemListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         activity ?: return
         viewModel = ViewModelProvider(activity!!)[OrderViewModel::class.java]
+        no_data_tip.visibility = if (viewModel.orderScene.items.isNotEmpty()) View.GONE else View.VISIBLE
         with(rv_item_list) {
             layoutManager = GridLayoutManager(activity, 2)
             adapter = ItemRecyclerViewAdapter(viewModel.orderScene.items, viewModel)
@@ -39,5 +40,6 @@ class ItemListFragment : BaseFragment() {
 
     override fun update(update: Update) {
         rv_item_list.adapter?.notifyDataSetChanged()
+        no_data_tip.visibility = if (viewModel.orderScene.items.isNotEmpty()) View.GONE else View.VISIBLE
     }
 }
