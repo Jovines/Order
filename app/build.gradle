@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    apply from:'../secret.gradle'
+
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
 
@@ -20,9 +22,9 @@ android {
     signingConfigs {
         config {
             storeFile file("../order-key")
-            keyAlias 'order'
-            keyPassword 'jovines_order'
-            storePassword 'jovines_order'
+            keyAlias sign.RELEASE_KEY_ALIAS
+            keyPassword sign.RELEASE_KEY_PASSWORD
+            storePassword sign.RELEASE_STORE_PASSWORD
         }
     }
 

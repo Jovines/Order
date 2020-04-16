@@ -12,3 +12,5 @@
 /captures
 .externalNativeBuild
 .cxx
+order-key
+secret.gradle
