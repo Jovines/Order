@@ -12,9 +12,6 @@ import com.jovines.order.order.OrderScene
 import com.jovines.order.order.Turn
 import com.jovines.order.util.defaultSharedPreferences
 import com.jovines.order.util.editor
-import com.jovines.order.util.rxjava.ExecuteOnceObserver
-import com.jovines.order.util.rxjava.setSchedulers
-import io.reactivex.Observable
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -113,22 +110,12 @@ class OrderViewModel : ViewModel() {
      * @param isRefresh 添加之后是否需要刷新视图
      */
     fun addItem(item: Item, isRefresh: Boolean = true) {
-        Observable.create<Any> {
-            orderScene.addItem(item)
-            itemList.add(ItemDataBean(item))
-            buildTurnList()
-            saveItemData()
-            it.onNext(Any())
-        }
-            .setSchedulers()
-            .subscribe(
-                ExecuteOnceObserver(
-                    onExecuteOnceNext = {
-                        if (isRefresh)
-                            EventBus.getDefault().post(Update())
-                    }
-                )
-            )
+        orderScene.addItem(item)
+        itemList.add(ItemDataBean(item))
+        buildTurnList()
+        saveItemData()
+        if (isRefresh)
+            EventBus.getDefault().post(Update())
     }
 
 
@@ -138,22 +125,12 @@ class OrderViewModel : ViewModel() {
      * @param isRefresh 删除之后是否需要刷新视图
      */
     fun removeItem(item: Item, isRefresh: Boolean = true) {
-        Observable.create<Any> {
-            orderScene.removeItem(item)
-            itemList.remove(item.tag)
-            buildTurnList()
-            saveItemData()
-            it.onNext(Any())
-        }
-            .setSchedulers()
-            .subscribe(
-                ExecuteOnceObserver(
-                    onExecuteOnceNext = {
-                        if (isRefresh)
-                            EventBus.getDefault().post(Update())
-                    }
-                )
-            )
+        orderScene.removeItem(item)
+        itemList.remove(item.tag)
+        buildTurnList()
+        saveItemData()
+        if (isRefresh)
+            EventBus.getDefault().post(Update())
     }
 
 
@@ -207,19 +184,9 @@ class OrderViewModel : ViewModel() {
      * 行列规格没有更改的话，直接调用这个方法就可以更新所有视图
      */
     fun order() {
-        Observable.create<Any> {
-            orderScene.order()
-            buildTurnList()
-            it.onNext(Any())
-        }
-            .setSchedulers()
-            .subscribe(
-                ExecuteOnceObserver(
-                    onExecuteOnceNext = {
-                        EventBus.getDefault().post(Update())
-                    }
-                )
-            )
+        orderScene.order()
+        buildTurnList()
+        EventBus.getDefault().post(Update())
     }
 
 }

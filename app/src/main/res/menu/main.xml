@@ -19,7 +19,13 @@
         android:orderInCategory="100"
         android:title="@string/times_setting" />
 
-  <item
+    <item
+        android:id="@+id/export_as_excel"
+        android:icon="@drawable/ic_sentiment_neutral_black_24dp"
+        android:orderInCategory="100"
+        android:title="@string/export_to_excel" />
+
+    <item
         android:id="@+id/empty"
         android:icon="@drawable/ic_sentiment_neutral_black_24dp"
         android:orderInCategory="100"

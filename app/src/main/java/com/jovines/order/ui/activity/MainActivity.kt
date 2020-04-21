@@ -52,6 +52,9 @@ class MainActivity : BaseActivity() {
                 R.id.empty -> {
                     MainDialogHelper.clearDataDialog(this, viewModel)?.show()
                 }
+                R.id.export_as_excel -> {
+                    MainDialogHelper.fileExport(this,viewModel)
+                }
             }
             true
         }

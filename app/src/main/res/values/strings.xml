@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Order</string>
+    <string name="app_name">排班助手</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="modify_item">修改ITEM</string>
@@ -19,4 +19,5 @@
     <string name="confirm">确认</string>
     <string name="an_item_can_be_sorted">一个ITEM能被排</string>
     <string name="no_data_has_been_added">还没有添加任何数据</string>
+    <string name="export_to_excel">导出为excel</string>
 </resources>
