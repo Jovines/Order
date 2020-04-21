@@ -8,12 +8,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jovines.order.R
 import com.jovines.order.adapter.OrderContentAdapter
-import com.jovines.order.adapter.OrderTopAdapter
 import com.jovines.order.adapter.OrderStartAdapter
+import com.jovines.order.adapter.OrderTopAdapter
 import com.jovines.order.base.BaseFragment
+import com.jovines.order.event.PageTurningEvent
 import com.jovines.order.event.Update
 import com.jovines.order.viewmodel.OrderViewModel
 import kotlinx.android.synthetic.main.fragment_order.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class OrderFragment : BaseFragment() {
 
@@ -53,5 +56,6 @@ class OrderFragment : BaseFragment() {
         order_content.adapter?.notifyDataSetChanged()
         order_start.adapter?.notifyDataSetChanged()
     }
+
 
 }

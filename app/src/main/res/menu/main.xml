@@ -3,32 +3,44 @@
 
     <item
         android:id="@+id/specification_setting"
-        android:icon="@drawable/ic_sentiment_neutral_black_24dp"
+        android:icon="@drawable/ic_baseline_sentiment_satisfied_alt_24"
         android:orderInCategory="100"
         android:title="@string/specification_setting" />
 
     <item
         android:id="@+id/number_of_people"
-        android:icon="@drawable/ic_sentiment_neutral_black_24dp"
+        android:icon="@drawable/ic_baseline_sentiment_satisfied_alt_24"
         android:orderInCategory="100"
         android:title="@string/number_of_people" />
 
     <item
         android:id="@+id/times_setting"
-        android:icon="@drawable/ic_sentiment_neutral_black_24dp"
+        android:icon="@drawable/ic_baseline_sentiment_satisfied_alt_24"
         android:orderInCategory="100"
         android:title="@string/times_setting" />
 
     <item
         android:id="@+id/export_as_excel"
-        android:icon="@drawable/ic_sentiment_neutral_black_24dp"
+        android:icon="@drawable/ic_baseline_sentiment_satisfied_alt_24"
         android:orderInCategory="100"
         android:title="@string/export_to_excel" />
 
     <item
+        android:id="@+id/one_click_import"
+        android:icon="@drawable/ic_baseline_sentiment_satisfied_alt_24"
+        android:orderInCategory="100"
+        android:title="@string/one_click_import" />
+
+    <item
         android:id="@+id/empty"
-        android:icon="@drawable/ic_sentiment_neutral_black_24dp"
+        android:icon="@drawable/ic_baseline_sentiment_satisfied_alt_24"
         android:orderInCategory="100"
         android:title="@string/empty" />
+
+    <item
+        android:id="@+id/don_t_order_me"
+        android:icon="@drawable/ic_sentiment_neutral_black_24dp"
+        android:orderInCategory="100"
+        android:title="@string/don_t_order_me" />
 
 </menu>

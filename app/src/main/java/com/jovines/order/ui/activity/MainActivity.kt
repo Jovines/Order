@@ -6,10 +6,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.jovines.order.R
 import com.jovines.order.adapter.MainViewPagerAdapter
 import com.jovines.order.base.BaseActivity
+import com.jovines.order.event.PageTurningEvent
 import com.jovines.order.ui.MainDialogHelper
 import com.jovines.order.viewmodel.OrderViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_content.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 class MainActivity : BaseActivity() {
@@ -53,10 +56,19 @@ class MainActivity : BaseActivity() {
                     MainDialogHelper.clearDataDialog(this, viewModel)?.show()
                 }
                 R.id.export_as_excel -> {
-                    MainDialogHelper.fileExport(this,viewModel)
+                    MainDialogHelper.fileExport(this, viewModel)
+                }
+                R.id.one_click_import -> {
+                    MainDialogHelper.importDialog(this, viewModel)
                 }
             }
             true
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun pageTurning(pageTurningEvent: PageTurningEvent) {
+        main_view_pager.currentItem = 1
+        drawer_layout.closeDrawer(GravityCompat.START)
     }
 }

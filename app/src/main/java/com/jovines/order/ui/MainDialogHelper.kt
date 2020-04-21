@@ -6,26 +6,35 @@ import android.app.Activity
 import android.content.Context
 import android.os.Environment
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialog
+import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
+import com.afollestad.materialdialogs.GravityEnum
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.jovines.order.R
 import com.jovines.order.adapter.DialogAdapter
+import com.jovines.order.event.PageTurningEvent
+import com.jovines.order.event.Update
 import com.jovines.order.order.Item
 import com.jovines.order.util.ExcelExport.asynDocumentExport
 import com.jovines.order.util.ShareFile
 import com.jovines.order.util.rxPermission
 import com.jovines.order.viewmodel.OrderViewModel
 import kotlinx.android.synthetic.main.dialog_content.view.*
+import kotlinx.android.synthetic.main.dialog_import_item_name.*
 import kotlinx.android.synthetic.main.number_of_people.view.*
+import kotlinx.android.synthetic.main.number_of_people.view.confirm_button
 import kotlinx.android.synthetic.main.specification_setting.view.*
-import kotlinx.android.synthetic.main.specification_setting.view.confirm_button
+import org.greenrobot.eventbus.EventBus
 import java.io.File
 import java.io.FileOutputStream
+import java.util.regex.Pattern
 
 
 /**
@@ -288,6 +297,87 @@ object MainDialogHelper {
                     fileOutputStream.close()
                     ShareFile.shareFile(activity, file)
                 }
+            }
+        }
+        dialog.show()
+    }
+
+
+    fun importDialog(context: Context, orderViewModel: OrderViewModel) {
+        val dialog = MaterialDialog.Builder(context)
+            .customView(R.layout.dialog_import_item_name, true).build()
+        dialog.apply {
+            button_confirm_button.setOnClickListener {
+                dialog.dismiss()
+            }
+            prompt_button.setOnClickListener {
+                MaterialDialog
+                    .Builder(context)
+                    .content(R.string.import_tips)
+                    .contentGravity(GravityEnum.CENTER)
+                    .positiveText("知道了")
+                    .onPositive { dialog, _ -> dialog.dismiss() }.show()
+            }
+            val s = View.OnClickListener {
+                select_text_view_1.toggle()
+                select_text_view_2.toggle()
+                if (select_text_view_1.isChecked) {
+                    select_text_view_1.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.design_default_color_background
+                        )
+                    )
+                    select_text_view_2.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.colorPrimary
+                        )
+                    )
+                } else {
+                    select_text_view_2.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.design_default_color_background
+                        )
+                    )
+                    select_text_view_1.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.colorPrimary
+                        )
+                    )
+                }
+            }
+            select_text_view_1.setOnClickListener(s)
+            select_text_view_2.setOnClickListener(s)
+            val dataList = ArrayList<String>()
+            et_input.addTextChangedListener {
+                dataList.clear()
+                val matcher = Pattern.compile("[\\u4e00-\\u9fa5]+").matcher(it.toString())
+                val stringBuilder = StringBuilder()
+                while (matcher.find()) {
+                    stringBuilder.append(matcher.group())
+                    dataList.add(matcher.group())
+                    stringBuilder.append(" ")
+                }
+                tv_analytical_results.text = stringBuilder
+            }
+            button_confirm_button.setOnClickListener {
+                dataList.forEach {
+                    val item = orderViewModel.orderScene.buildItem(it)
+                    if (select_text_view_2.isChecked) {
+                        for (column in 1..orderViewModel.maxColumn) {
+                            for (row in 1..orderViewModel.maxRow) {
+                                item.add(column, row)
+                            }
+                        }
+                    }
+                    orderViewModel.addItem(item, false)
+                }
+                EventBus.getDefault().post(Update())
+                EventBus.getDefault().post(PageTurningEvent(1))
+                dialog.dismiss()
             }
         }
         dialog.show()

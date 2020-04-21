@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <CheckedTextView
+        android:id="@+id/select_text_view_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/selector_import_mode_selector"
+        android:checked="true"
+        android:padding="8dp"
+        android:text="所有全不选"
+        android:textColor="@color/design_default_color_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <CheckedTextView
+        android:id="@+id/select_text_view_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/selector_import_mode_selector"
+        android:padding="8dp"
+        android:text="所有全选"
+        app:layout_constraintBottom_toBottomOf="@+id/select_text_view_1"
+        app:layout_constraintStart_toEndOf="@+id/select_text_view_1"
+        app:layout_constraintTop_toTopOf="@id/select_text_view_1" />
+
+    <TextView
+        android:id="@+id/prompt_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_baseline_emoji_objects_24"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="帮助"
+        app:layout_constraintBottom_toBottomOf="@+id/select_text_view_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/select_text_view_2" />
+
+    <EditText
+        android:id="@+id/et_input"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_import_input_background"
+        android:elevation="10dp"
+        android:gravity="top|start"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/select_text_view_1" />
+
+    <ScrollView
+        android:id="@+id/tv_analytical_results_content"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_import_input_background"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_input"
+        app:layout_constraintStart_toStartOf="@+id/et_input"
+        app:layout_constraintTop_toBottomOf="@+id/et_input">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="解析结果：" />
+
+            <TextView
+                android:id="@+id/tv_analytical_results"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/button_confirm_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_little_button"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:text="确认"
+        android:textColor="@color/design_default_color_background"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_analytical_results_content" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,5 +19,9 @@
     <string name="confirm">确认</string>
     <string name="an_item_can_be_sorted">一个ITEM能被排</string>
     <string name="no_data_has_been_added">还没有添加任何数据</string>
-    <string name="export_to_excel">导出为excel</string>
+    <string name="export_to_excel">导出为EXCEL</string>
+    <string name="one_click_import">一键导入ITEM名</string>
+    <string name="horizontal_line">-</string>
+    <string name="don_t_order_me">千万别点我</string>
+    <string name="import_tips">将名称复制到下面的输入框内\n注意：名称与名称之间需要用非中文字符区分开\n例如：张三¥李四*王五^赵六 丁七\n会识别为：(张三 李四 王五 赵六 丁七)共五个名字</string>
 </resources>
