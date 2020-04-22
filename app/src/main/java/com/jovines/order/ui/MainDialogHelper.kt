@@ -211,8 +211,8 @@ object MainDialogHelper {
         view.materialButton.text = "确认修改"
         var isSelectAll = true
         view.tv_select_all.text = if (isSelectAll) "取消全选" else "全选"
-        copyItem.totalSchedule.forEach {
-            it.forEach {
+        copyItem.totalSchedule.forEach { booleans ->
+            booleans.forEach {
                 if (!it) {
                     isSelectAll = false
                     view.tv_select_all.text = if (isSelectAll) "取消全选" else "全选"
@@ -362,6 +362,8 @@ object MainDialogHelper {
                     stringBuilder.append(" ")
                 }
                 tv_analytical_results.text = stringBuilder
+                val peopleCount = "解析结果：${dataList.size}人"
+                tv_population_statistics.text = peopleCount
             }
             button_confirm_button.setOnClickListener {
                 dataList.forEach {
