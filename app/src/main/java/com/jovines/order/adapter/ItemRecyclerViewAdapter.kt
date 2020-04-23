@@ -4,12 +4,11 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jovines.order.R
 import com.jovines.order.order.Item
-import com.jovines.order.ui.MainDialogHelper
+import com.jovines.order.ui.DialogHelper
 import com.jovines.order.viewmodel.OrderViewModel
 import kotlinx.android.synthetic.main.recycle_view_fragment_item.view.*
 
@@ -37,7 +36,7 @@ class ItemRecyclerViewAdapter(private val mValues: List<Item>, val viewModel: Or
                 item_content_already_order.setTextColor(Color.RED)
             } else item_content_already_order.setTextColor(Color.WHITE)
             setOnClickListener {
-                MainDialogHelper.itemBottomSheetDialog(context, viewModel, data)?.show()
+                DialogHelper.itemBottomSheetDialog(context, viewModel, data)?.show()
             }
             setOnLongClickListener {
                 val dialog = AlertDialog.Builder(context)

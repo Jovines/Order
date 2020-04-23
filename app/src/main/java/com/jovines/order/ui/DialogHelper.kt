@@ -2,6 +2,7 @@
 
 package com.jovines.order.ui
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.os.Environment
@@ -14,20 +15,26 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialog
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import com.afollestad.materialdialogs.GravityEnum
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.jovines.order.App
 import com.jovines.order.R
 import com.jovines.order.adapter.DialogAdapter
+import com.jovines.order.bean.FeedbackBean
 import com.jovines.order.event.PageTurningEvent
 import com.jovines.order.event.Update
 import com.jovines.order.order.Item
 import com.jovines.order.util.ExcelExport.asynDocumentExport
 import com.jovines.order.util.ShareFile
 import com.jovines.order.util.rxPermission
+import com.jovines.order.viewmodel.FeedbackViewModel
 import com.jovines.order.viewmodel.OrderViewModel
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.dialog_content.view.*
 import kotlinx.android.synthetic.main.dialog_import_item_name.*
+import kotlinx.android.synthetic.main.diaolg_add_feed_back.*
 import kotlinx.android.synthetic.main.number_of_people.view.*
 import kotlinx.android.synthetic.main.number_of_people.view.confirm_button
 import kotlinx.android.synthetic.main.specification_setting.view.*
@@ -44,7 +51,7 @@ import java.util.regex.Pattern
  * 描述:
  *
  */
-object MainDialogHelper {
+object DialogHelper {
 
 
     fun specificationSettingDialog(
@@ -257,31 +264,36 @@ object MainDialogHelper {
             .progress(true, 100)
             .content("正在导出,请等待.....").build()
         dialog.setPositiveButton("保存本地") { _, _ ->
-            activity.rxPermission("权限获取失败，无法导出") {
-                process.show()
-                asynDocumentExport(
-                    viewModel.turnList,
-                    viewModel.maxRow,
-                    viewModel.maxColumn,
-                    viewModel.turnCanFixed
-                ) {
-                    process.dismiss()
-                    val path = Environment.getExternalStorageDirectory().absolutePath
-                    val fileOutputStream = FileOutputStream("${path}/排班数据.xlsx")
-                    it.write(fileOutputStream)
-                    fileOutputStream.close()
-                    Toast.makeText(activity, "导出成功，文件在sd根目录", Toast.LENGTH_SHORT).show()
-                    MaterialDialog.Builder(activity)
-                        .title("是否直接打开文件")
-                        .positiveText("是的")
-                        .onPositive { _, _ ->
-                            ShareFile.openFile(activity, File("${path}/排班数据.xlsx"))
-                        }.show()
-                }
-            }
+            activity.rxPermission(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                successfulCallback = {
+                    process.show()
+                    asynDocumentExport(
+                        viewModel.turnList,
+                        viewModel.maxRow,
+                        viewModel.maxColumn,
+                        viewModel.turnCanFixed
+                    ) {
+                        process.dismiss()
+                        val path = Environment.getExternalStorageDirectory().absolutePath
+                        val fileOutputStream = FileOutputStream("${path}/排班数据.xlsx")
+                        it.write(fileOutputStream)
+                        fileOutputStream.close()
+                        Toast.makeText(activity, "导出成功，文件在sd根目录", Toast.LENGTH_SHORT).show()
+                        MaterialDialog.Builder(activity)
+                            .title("是否直接打开文件")
+                            .positiveText("是的")
+                            .onPositive { _, _ ->
+                                ShareFile.openFile(activity, File("${path}/排班数据.xlsx"))
+                            }.show()
+                    }
+                },
+                failedCallback = {
+                    Toast.makeText(activity, "无法获取权限，导出失败", Toast.LENGTH_SHORT).show()
+                })
         }
         dialog.setNegativeButton("直接分享") { _, _ ->
-            activity.rxPermission("没有权限，分享失败") {
+            activity.rxPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, successfulCallback = {
                 process.show()
                 asynDocumentExport(
                     viewModel.turnList,
@@ -297,6 +309,8 @@ object MainDialogHelper {
                     fileOutputStream.close()
                     ShareFile.shareFile(activity, file)
                 }
+            }) {
+                Toast.makeText(activity, "无法获取权限，导出失败", Toast.LENGTH_SHORT).show()
             }
         }
         dialog.show()
@@ -384,4 +398,56 @@ object MainDialogHelper {
         }
         dialog.show()
     }
+
+    fun addSuggestions(activity: Activity, feedbackViewModel: FeedbackViewModel): MaterialDialog {
+        val dialog = MaterialDialog.Builder(activity)
+            .customView(R.layout.diaolg_add_feed_back, false)
+            .positiveText("提交")
+            .autoDismiss(false)
+            .cancelable(false)
+            .negativeText("取消").build()
+        dialog.apply {
+            builder.onPositive { dialog, which ->
+                val feedbackBean = FeedbackBean(
+                    identificationcode = App.UUID,
+                    content = et_feed_back_content_input.editableText.toString(),
+                    title = if (radioGroup.checkedRadioButtonId == R.id.rb_function_suggestions) "功能建议" else "问题反馈",
+                    status = 0
+                )
+                feedbackViewModel.addFeedBack(feedbackBean)
+                dialog.dismiss()
+            }
+            builder.onNegative { dialog, which ->
+                dialog.dismiss()
+            }
+            et_feed_back_content_input.doAfterTextChanged {
+                if (it?.length ?: 0 > 999) {
+                    Toast.makeText(activity, "字数超过上限不可再输入", Toast.LENGTH_SHORT).show()
+                }
+            }
+            fun MaterialDialog.Builder.permissionCheck(): MaterialDialog.Builder {
+                val rxPermission = RxPermissions(activity)
+                if (!rxPermission.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    negativeText("现在授予权限")
+                    onNegative { dialog, which ->
+                        activity.rxPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, {}, {})
+                    }
+                }
+                return this
+            }
+            tv_feed_back_prompt_button.setOnClickListener {
+                MaterialDialog.Builder(activity)
+                    .title("反馈须知")
+                    .content(
+                        "由于暂时没有账号机制，所以首次进入app生成的唯一编码则为你的唯一身份识别信息," +
+                                "一旦您卸载app或者清空app数据，再次进入app时，则会重新分配唯一编码，那么您之前提交的反馈将不可见。"
+                    )
+                    .positiveText("我知道了")
+//                    .permissionCheck()
+                    .show()
+            }
+        }
+        return dialog
+    }
+
 }

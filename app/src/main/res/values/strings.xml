@@ -24,4 +24,7 @@
     <string name="horizontal_line">-</string>
     <string name="don_t_order_me">千万别点我</string>
     <string name="import_tips">将名称复制到下面的输入框内\n注意：名称与名称之间需要用非中文字符区分开\n例如：张三¥李四*王五^赵六 丁七\n会识别为：(张三 李四 王五 赵六 丁七)共五个名字</string>
+    <string name="suggestion_feedback">建议反馈</string>
+    <string name="category_tip">类别：</string>
+    <string name="you_haven_t_submitted_feedback_yet">您还没有提交反馈消息</string>
 </resources>
