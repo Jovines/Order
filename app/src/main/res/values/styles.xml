@@ -22,7 +22,13 @@
         <!--        去除dialog默认白色背景-->
         <item name="android:background">@android:color/transparent</item>
         <!--        是否加遮罩（对话框出现时，背景变暗。为true则充许变暗）-->
-<!--        <item name="android:backgroundDimEnabled">false</item>-->
+        <!--        <item name="android:backgroundDimEnabled">false</item>-->
+    </style>
+
+
+    <style name="splash_theme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/layer_list_splash_back</item>
+
     </style>
 
 </resources>

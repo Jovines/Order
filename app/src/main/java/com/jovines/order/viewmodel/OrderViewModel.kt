@@ -99,9 +99,6 @@ class OrderViewModel : ViewModel() {
 
     lateinit var turnList: Array<Turn?>
 
-    init {
-        restoreCache()
-    }
 
     /**
      * 添加item的
@@ -169,7 +166,7 @@ class OrderViewModel : ViewModel() {
     /**
      * 从缓存重建用于构造显示主要排序的控件数据[turnList]
      */
-    private fun restoreCache() {
+    fun restoreCache() {
         //恢复缓存
         orderScene.removeAll()
         turnList = arrayOfNulls(maxColumn * maxRow)

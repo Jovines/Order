@@ -4,6 +4,7 @@ package com.jovines.order.ui
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.os.Environment
 import android.view.LayoutInflater
@@ -29,9 +30,11 @@ import com.jovines.order.order.Item
 import com.jovines.order.util.ExcelExport.asynDocumentExport
 import com.jovines.order.util.ShareFile
 import com.jovines.order.util.rxPermission
+import com.jovines.order.util.rxjava.setSchedulers
 import com.jovines.order.viewmodel.FeedbackViewModel
 import com.jovines.order.viewmodel.OrderViewModel
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.dialog_content.view.*
 import kotlinx.android.synthetic.main.dialog_import_item_name.*
 import kotlinx.android.synthetic.main.diaolg_add_feed_back.*
@@ -64,8 +67,8 @@ object DialogHelper {
             dialog.window?.decorView as ViewGroup,
             false
         )
-        inflate.row_number_picker.maxValue = 12
-        inflate.column_number_picker.maxValue = 12
+        inflate.row_number_picker.maxValue = 20
+        inflate.column_number_picker.maxValue = 14
         inflate.row_number_picker.minValue = 1
         inflate.column_number_picker.minValue = 1
         inflate.row_number_picker.value = orderViewModel.maxRow
@@ -380,20 +383,28 @@ object DialogHelper {
                 tv_population_statistics.text = peopleCount
             }
             button_confirm_button.setOnClickListener {
-                dataList.forEach {
-                    val item = orderViewModel.orderScene.buildItem(it)
-                    if (select_text_view_2.isChecked) {
-                        for (column in 1..orderViewModel.maxColumn) {
-                            for (row in 1..orderViewModel.maxRow) {
-                                item.add(column, row)
+                dialog.dismiss()
+                val materialDialog = progressDialog(context, "导入中.....")
+                materialDialog.show()
+                Observable.create<Unit> {
+                    dataList.forEach {
+                        val item = orderViewModel.orderScene.buildItem(it)
+                        if (select_text_view_2.isChecked) {
+                            for (column in 1..orderViewModel.maxColumn) {
+                                for (row in 1..orderViewModel.maxRow) {
+                                    item.add(column, row)
+                                }
                             }
                         }
+                        orderViewModel.addItem(item, false)
                     }
-                    orderViewModel.addItem(item, false)
-                }
-                EventBus.getDefault().post(Update())
-                EventBus.getDefault().post(PageTurningEvent(1))
-                dialog.dismiss()
+                    it.onNext(Unit)
+                }.setSchedulers()
+                    .subscribe {
+                        materialDialog.dismiss()
+                        EventBus.getDefault().post(Update())
+                        EventBus.getDefault().post(PageTurningEvent(1))
+                    }
             }
         }
         dialog.show()
@@ -448,6 +459,13 @@ object DialogHelper {
             }
         }
         return dialog
+    }
+
+    fun progressDialog(context: Context, data: String): Dialog {
+        return MaterialDialog.Builder(context)
+            .cancelable(false)
+            .content(data)
+            .progress(true, 100).build()
     }
 
 }

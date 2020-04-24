@@ -11,12 +11,12 @@ import com.jovines.order.adapter.OrderContentAdapter
 import com.jovines.order.adapter.OrderStartAdapter
 import com.jovines.order.adapter.OrderTopAdapter
 import com.jovines.order.base.BaseFragment
-import com.jovines.order.event.PageTurningEvent
 import com.jovines.order.event.Update
+import com.jovines.order.ui.DialogHelper
+import com.jovines.order.util.rxjava.setSchedulers
 import com.jovines.order.viewmodel.OrderViewModel
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_order.*
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 class OrderFragment : BaseFragment() {
 

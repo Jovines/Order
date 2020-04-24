@@ -11,8 +11,10 @@ import com.jovines.order.base.BaseActivity
 import com.jovines.order.event.PageTurningEvent
 import com.jovines.order.ui.DialogHelper
 import com.jovines.order.util.defaultSharedPreferences
+import com.jovines.order.util.rxjava.setSchedulers
 import com.jovines.order.util.storyList
 import com.jovines.order.viewmodel.OrderViewModel
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_content.*
 import org.greenrobot.eventbus.Subscribe
@@ -30,6 +32,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         viewModel = ViewModelProvider(this)[OrderViewModel::class.java]
@@ -37,7 +40,17 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initActivity() {
-        main_view_pager.adapter = MainViewPagerAdapter(this)
+        val dialog = DialogHelper.progressDialog(this, "恢复缓存中....")
+        dialog.show()
+        //当缓存过多时，恢复需要较多时间
+        Observable.create<Unit> {
+            viewModel.restoreCache()
+            it.onNext(Unit)
+        }.setSchedulers()
+            .subscribe {
+                main_view_pager.adapter = MainViewPagerAdapter(this)
+                dialog.dismiss()
+            }.isDisposed
 
         float_button.setOnClickListener {
             DialogHelper.mainBottomSheetDialog(this, viewModel)?.show()
